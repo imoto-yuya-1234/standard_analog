@@ -1,0 +1,37 @@
+<form>
+<p>
+<select id="color" size="4">
+  <option value="0" selected>white</option>
+  <option value="1">black</option>
+  <option value="2">blue</option>
+  <option value="3">red</option>
+</select>
+</p>
+<p><input type="submit" id="b-save" value="save"></input></p>
+<p><input type="submit" id="b-cancel" value="cancel"></input></p>
+</form>
+
+<script>
+function saveOptions() {
+var colorValue = parseInt($('#color').val());
+var sendValue =[colorValue];
+return sendValue;
+}
+
+$().ready(function() 
+{
+$("#b-cancel").click(function() 
+{
+console.log("Canceling");
+document.location = "pebblejs://close";
+});
+$("#b-save").click(function() {
+console.log("Save");
+var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(saveOptions()));
+document.location = location;
+});
+});
+</script>
+
+var colorValue = parseInt($('#color').val());
+var sendValue =[colorValue];
