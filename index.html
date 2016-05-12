@@ -1,34 +1,46 @@
-<form>
-<p>
-<select id="color" size="4">
-  <option value="0" selected>white</option>
-  <option value="1">black</option>
-  <option value="2">blue</option>
-  <option value="3">red</option>
-</select>
-</p>
-<p><input type="submit" id="b-save" value="save"></input></p>
-<p><input type="submit" id="b-cancel" value="cancel"></input></p>
-</form>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SDKTut9 Configuration</title>
+  </head>
+  <body>
+    <h1>Pebble Config Tutorial</h1>
+    <p>Choose watchapp settings</p>
+ 
+    <p>Invert watchapp:
+    <select id="invert_select">
+      <option value="off">Off</option>
+      <option value="on">On</option>
+    </select>
+    </p>
+ 
+    <p>
+    <button id="save_button">Save</button>
+    </p>
+  </body>
+</html>
 
 <script>
-function saveOptions() {
-var colorValue = parseInt($('#color').val());
-var sendValue =[colorValue];
-return sendValue;
-}
-
-$().ready(function() 
-{
-$("#b-cancel").click(function() 
-{
-console.log("Canceling");
-document.location = "pebblejs://close";
-});
-$("#b-save").click(function() {
-console.log("Save");
-var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(saveOptions()));
-document.location = location;
-});
-});
+  //Setup to allow easy adding more options later
+  function saveOptions() {
+    var invertSelect = document.getElementById("invert_select");
+ 
+    var options = {
+      "invert": invertSelect.options[invertSelect.selectedIndex].value
+    }
+     
+    return options;
+  };
+ 
+  var submitButton = document.getElementById("save_button");
+  submitButton.addEventListener("click", 
+    function() {
+      console.log("Submit");
+ 
+      var options = saveOptions();
+      var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(options));
+       
+      document.location = location;
+    }, 
+  false);
 </script>
