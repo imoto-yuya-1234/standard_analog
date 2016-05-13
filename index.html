@@ -23,12 +23,18 @@
     <div class='item-container'>
       <div class='item-container-content'>
         <label class='item'>
-          Invert
+          Invert color
           <input id='invert_checkbox' type='checkbox' class='item-toggle'>
         </label>
       </div>
-      <div class='item-container-footer'>
-        This switches the app colors to a higher contrast set that promotes readability in low light.
+    </div>
+
+    <div class='item-container'>
+      <div class='item-container-content'>
+        <label class='item'>
+          Show ticks
+          <input id='show_ticks_checkbox' type='checkbox' class='item-toggle'>
+        </label>
       </div>
     </div>
     
@@ -42,13 +48,16 @@
   <script>
   function getConfigData() {
     var invertCheckbox = document.getElementById('invert_checkbox');
+    var showticksCheckbox = document.getElementById('show_ticks_checkbox');
  
     var options = {
-      'invert': invertCheckbox.checked
+      'invert': invertCheckbox.checked,
+      'show_ticks': showticksCheckbox.checked
     };
 
     // Save for next launch
     localStorage['invert'] = options['invert'];
+    localStorage['show_ticks'] = options['show_ticks']
 
     console.log('Got options: ' + JSON.stringify(options));
     return options;
@@ -77,10 +86,14 @@
 
   (function() {
     var invertCheckbox = document.getElementById('invert_checkbox');
+    var showticksCheckbox = document.getElementById('show_ticks_checkbox');
 
     // Load any previously saved configuration, if available
     if(localStorage['invert']) {
       invertCheckbox.checked = JSON.parse(localStorage['invert']);
+    }
+    if(localStorage['show_ticks']) {
+    	showticksCheckbox.checked = JSON.parse(localStorage['show_ticks']);
     }
   })();
   </script>
