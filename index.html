@@ -79,7 +79,9 @@
     var invertCheckbox = document.getElementById('invert_checkbox');
 
     // Load any previously saved configuration, if available
-    invertCheckbox.checked = JSON.parse(localStorage['invert']);
+    if(localStorage['invert']) {
+      invertCheckbox.checked = JSON.parse(localStorage['invert']);
+    }
   })();
   </script>
 </html>
