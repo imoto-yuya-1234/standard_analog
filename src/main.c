@@ -1,7 +1,13 @@
 #include "pebble.h"
 
+#define KEY_INVERT 0
+
+//static void init();
+static void window_load(Window *window);
+static void window_unload(Window *window);
+
 static Window *s_window;
-static Layer *s_bg_layer, *s_ticks_layer;
+static Layer *s_ticks_layer;
 
 static Layer *s_hands_layer;
 
@@ -15,13 +21,7 @@ static GBitmap *s_connection_bitmap;
 static Layer *s_battery_layer;
 static int s_battery_level;
 
-static void bg_update_proc(Layer *layer, GContext *ctx) {
-	GRect bounds = layer_get_bounds(layer);
-  	
-	graphics_context_set_fill_color(ctx, GColorBlack);
-	graphics_fill_rect(ctx, bounds, 0, GCornerNone);
-	graphics_context_set_fill_color(ctx, GColorWhite);
-}
+static GColor invert_color_1, invert_color_2;
 
 static void ticks_update_proc(Layer *layer, GContext *ctx) {
 	int32_t angle;
@@ -47,7 +47,7 @@ static void ticks_update_proc(Layer *layer, GContext *ctx) {
     	.x =  (int16_t)(sin_lookup(angle) * (int32_t)(radius - length) / TRIG_MAX_RATIO) + center.x,
     	.y =  (int16_t)(-cos_lookup(angle) * (int32_t)(radius - length) / TRIG_MAX_RATIO) + center.y,
   	};
-		graphics_context_set_stroke_color(ctx, GColorWhite);
+		graphics_context_set_stroke_color(ctx, invert_color_2);
 		graphics_context_set_stroke_width(ctx, width);
 		graphics_draw_line(ctx, start, end);
 	}
@@ -61,8 +61,7 @@ static void ticks_update_proc(Layer *layer, GContext *ctx) {
 			length = 4;
 			width = 1;
 		}
-		//GPoint start, end;
-		graphics_context_set_stroke_color(ctx, GColorWhite);
+		graphics_context_set_stroke_color(ctx, invert_color_2);
 		graphics_context_set_stroke_width(ctx, width);
 		if(j < 7 || j >= 54) {
 			GPoint start = {
@@ -121,6 +120,7 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
   struct tm *t = localtime(&now);
 	int16_t hour = t->tm_hour;
 	int16_t min = t->tm_min;
+	graphics_context_set_stroke_color(ctx, invert_color_2);
 	
 	// hour hand
 	const int16_t hour_hand_length = PBL_IF_ROUND_ELSE(bounds.size.w / 2 - 35, bounds.size.w / 2 - 20);
@@ -129,7 +129,6 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
 		.x = (int16_t)(sin_lookup(hour_hand_angle) * (int32_t)(hour_hand_length) / TRIG_MAX_RATIO) + center.x,
     .y = (int16_t)(-cos_lookup(hour_hand_angle) * (int32_t)(hour_hand_length) / TRIG_MAX_RATIO) + center.y,
   };
-	graphics_context_set_stroke_color(ctx, GColorWhite);
 	graphics_context_set_stroke_width(ctx, 3);
   graphics_draw_line(ctx, hour_hand_start, center);
 	
@@ -140,17 +139,17 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
 		.x = (int16_t)(sin_lookup(minute_hand_angle) * (int32_t)(minute_hand_length) / TRIG_MAX_RATIO) + center.x,
     .y = (int16_t)(-cos_lookup(minute_hand_angle) * (int32_t)(minute_hand_length) / TRIG_MAX_RATIO) + center.y,
   };
-	graphics_context_set_stroke_color(ctx, GColorWhite);
 	graphics_context_set_stroke_width(ctx, 3);
   graphics_draw_line(ctx, minute_hand_start, center);
 		
 	// dot in the middle
-	graphics_context_set_fill_color(ctx, GColorWhite);
+	graphics_context_set_fill_color(ctx, invert_color_2);
 	graphics_fill_circle(ctx, center, 4);
 	
 	// second hand
   const int16_t second_hand_length = PBL_IF_ROUND_ELSE(bounds.size.w / 2, bounds.size.w / 2);
   int32_t second_angle = TRIG_MAX_ANGLE * t->tm_sec / 60;
+	graphics_context_set_stroke_color(ctx, PBL_IF_COLOR_ELSE(GColorRed, invert_color_2));
   GPoint second_hand_start = {
     .x = (int16_t)(sin_lookup(second_angle) * (int32_t)(second_hand_length - 3) / TRIG_MAX_RATIO) + center.x,
     .y = (int16_t)(-cos_lookup(second_angle) * (int32_t)(second_hand_length - 3) / TRIG_MAX_RATIO) + center.y,
@@ -159,19 +158,16 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
     .x =  - (int16_t)(sin_lookup(180 + second_angle) * 15 / TRIG_MAX_RATIO) + center.x,
     .y =  - (int16_t)(-cos_lookup(180 + second_angle) * 15 / TRIG_MAX_RATIO) + center.y,
   };
-  graphics_context_set_stroke_color(ctx, PBL_IF_COLOR_ELSE(GColorRed, GColorWhite));
-	graphics_context_set_stroke_width(ctx, 1);
+  graphics_context_set_stroke_width(ctx, 1);
   graphics_draw_line(ctx, second_hand_start, second_hand_end);
 	// second hand decorate
 	GPoint second_hand_deco = {
     .x = (int16_t)(sin_lookup(second_angle) * (int32_t)(second_hand_length - 8) / TRIG_MAX_RATIO) + center.x,
     .y = (int16_t)(-cos_lookup(second_angle) * (int32_t)(second_hand_length - 8) / TRIG_MAX_RATIO) + center.y,
   };
-	graphics_context_set_fill_color(ctx, PBL_IF_COLOR_ELSE(GColorRed, GColorWhite));
+	graphics_context_set_fill_color(ctx, PBL_IF_COLOR_ELSE(GColorRed, invert_color_2));
 	graphics_fill_circle(ctx, second_hand_deco, 5);
-
   // dot in the middle
-  graphics_context_set_fill_color(ctx, PBL_IF_COLOR_ELSE(GColorRed, GColorWhite));
   graphics_fill_circle(ctx, center, 2);
 }
 
@@ -255,8 +251,6 @@ static void handle_battery(BatteryChargeState charge_state) {
 	s_battery_level = charge_state.charge_percent;
 }
 
-static TextLayer *text_layer;
-#define KEY_INVERT 0
 static void in_recv_handler(DictionaryIterator *iterator, void *context) {
   //Get Tuple
   Tuple *t = dict_read_first(iterator);
@@ -266,32 +260,38 @@ static void in_recv_handler(DictionaryIterator *iterator, void *context) {
       //It's the KEY_INVERT key
       if(strcmp(t->value->cstring, "on") == 0) {
         //Set and save as inverted
-        text_layer_set_text_color(text_layer, GColorWhite);
-        text_layer_set_background_color(text_layer, GColorBlack);
-        text_layer_set_text(text_layer, "Inverted!");
- 
         persist_write_bool(KEY_INVERT, true);
       }
       else if(strcmp(t->value->cstring, "off") == 0) {
         //Set and save as not inverted
-        text_layer_set_text_color(text_layer, GColorBlack);
-        text_layer_set_background_color(text_layer, GColorWhite);
-        text_layer_set_text(text_layer, "Not inverted!");
- 
         persist_write_bool(KEY_INVERT, false);
       }
       break;
     }
   }
+	window_stack_remove(s_window, true);
+	s_window = window_create();
+  window_set_window_handlers(s_window, (WindowHandlers) {
+    .load = window_load,
+    .unload = window_unload,
+  });
+  window_stack_push(s_window, true);
 }
 
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
-	s_bg_layer = layer_create(bounds);
-	layer_set_update_proc(s_bg_layer, bg_update_proc);
-	layer_add_child(window_layer, s_bg_layer);
+	if(persist_read_bool(KEY_INVERT)) {
+		invert_color_1 = GColorBlack;
+		invert_color_2 = GColorWhite;
+	}
+	else{
+		invert_color_1 = GColorWhite;
+		invert_color_2 = GColorBlack;
+	}
+	
+	window_set_background_color(s_window, invert_color_1);
 	
 	s_battery_layer = layer_create(bounds);
 	handle_battery(battery_state_service_peek());
@@ -334,16 +334,12 @@ static void window_load(Window *window) {
 
   layer_add_child(s_date_layer, text_layer_get_layer(s_num_label));
 	
-	text_layer = text_layer_create(GRect(30, 30, 80, 20));
-	layer_add_child(s_date_layer, text_layer_get_layer(text_layer));
-	
   s_hands_layer = layer_create(bounds);
   layer_set_update_proc(s_hands_layer, hands_update_proc);
   layer_add_child(window_layer, s_hands_layer);
 }
 
 static void window_unload(Window *window) {
-	layer_destroy(s_bg_layer);
 	layer_destroy(s_ticks_layer);
   layer_destroy(s_hands_layer);
 	layer_destroy(s_date_layer);
