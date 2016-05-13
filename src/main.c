@@ -255,6 +255,36 @@ static void handle_battery(BatteryChargeState charge_state) {
 	s_battery_level = charge_state.charge_percent;
 }
 
+static TextLayer *text_layer;
+#define KEY_INVERT 0
+static void in_recv_handler(DictionaryIterator *iterator, void *context) {
+  //Get Tuple
+  Tuple *t = dict_read_first(iterator);
+  if(t) {
+    switch(t->key) {
+    case KEY_INVERT:
+      //It's the KEY_INVERT key
+      if(strcmp(t->value->cstring, "on") == 0) {
+        //Set and save as inverted
+        text_layer_set_text_color(text_layer, GColorWhite);
+        text_layer_set_background_color(text_layer, GColorBlack);
+        text_layer_set_text(text_layer, "Inverted!");
+ 
+        persist_write_bool(KEY_INVERT, true);
+      }
+      else if(strcmp(t->value->cstring, "off") == 0) {
+        //Set and save as not inverted
+        text_layer_set_text_color(text_layer, GColorBlack);
+        text_layer_set_background_color(text_layer, GColorWhite);
+        text_layer_set_text(text_layer, "Not inverted!");
+ 
+        persist_write_bool(KEY_INVERT, false);
+      }
+      break;
+    }
+  }
+}
+
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
@@ -304,6 +334,9 @@ static void window_load(Window *window) {
 
   layer_add_child(s_date_layer, text_layer_get_layer(s_num_label));
 	
+	text_layer = text_layer_create(GRect(30, 30, 80, 20));
+	layer_add_child(s_date_layer, text_layer_get_layer(text_layer));
+	
   s_hands_layer = layer_create(bounds);
   layer_set_update_proc(s_hands_layer, hands_update_proc);
   layer_add_child(window_layer, s_hands_layer);
@@ -327,6 +360,9 @@ static void init() {
     .unload = window_unload,
   });
   window_stack_push(s_window, true);
+	
+	app_message_register_inbox_received((AppMessageInboxReceived) in_recv_handler);
+	app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 	
   tick_timer_service_subscribe(SECOND_UNIT, handle_second_tick);
 	bluetooth_connection_service_subscribe(handle_bluetooth);
