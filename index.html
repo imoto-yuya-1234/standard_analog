@@ -37,6 +37,15 @@
         </label>
       </div>
     </div>
+
+    <div class='item-container'>
+      <div class='item-container-content'>
+        <label class='item'>
+          Show date
+          <input id='show_date_checkbox' type='checkbox' class='item-toggle'>
+        </label>
+      </div>
+    </div>
     
     <div class='item-container'>
       <div class='button-container'>
@@ -49,15 +58,18 @@
   function getConfigData() {
     var invertCheckbox = document.getElementById('invert_checkbox');
     var showticksCheckbox = document.getElementById('show_ticks_checkbox');
+    var showdateCheckbox = document.getElementById('show_date_checkbox');
  
     var options = {
       'invert': invertCheckbox.checked,
-      'show_ticks': showticksCheckbox.checked
+      'show_ticks': showticksCheckbox.checked,
+      'show_date': showdateCheckbox.checked
     };
 
     // Save for next launch
     localStorage['invert'] = options['invert'];
-    localStorage['show_ticks'] = options['show_ticks']
+    localStorage['show_ticks'] = options['show_ticks'];
+    localStorage['show_date'] = options['show_date'];
 
     console.log('Got options: ' + JSON.stringify(options));
     return options;
@@ -87,6 +99,7 @@
   (function() {
     var invertCheckbox = document.getElementById('invert_checkbox');
     var showticksCheckbox = document.getElementById('show_ticks_checkbox');
+    var showdateCheckbox = document.getElementById('show_date_checkbox');
 
     // Load any previously saved configuration, if available
     if(localStorage['invert']) {
@@ -94,6 +107,9 @@
     }
     if(localStorage['show_ticks']) {
     	showticksCheckbox.checked = JSON.parse(localStorage['show_ticks']);
+    }
+    if(localStorage['show_date']) {
+    	showdateCheckbox.checked = JSON.parse(localStorage['show_date']);
     }
   })();
   </script>
