@@ -1,6 +1,11 @@
 {
     "appKeys": {
-        "KEY_INVERT": 0
+        "KEY_CONNECTION": 1,
+        "KEY_INVERT": 0,
+        "KEY_SHOW_BATTERY": 5,
+        "KEY_SHOW_DATE": 3,
+        "KEY_SHOW_SECOND": 4,
+        "KEY_SHOW_TICKS": 2
     },
     "capabilities": [
         "configurable"
