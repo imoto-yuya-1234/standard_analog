@@ -156,24 +156,12 @@
     var roundColorPicker = document.getElementById('round_color_picker');
 
     // Load any previously saved configuration, if available
-    //if(localStorage['invert']) {
-      invertCheckbox.checked = JSON.parse(localStorage['invert']);
-    //}
-    if(localStorage['connection']) {
-    	connectionCheckbox.checked = JSON.parse(localStorage['connection']);
-    }
-    if(localStorage['show_ticks']) {
-    	showticksCheckbox.checked = JSON.parse(localStorage['show_ticks']);
-    }
-    if(localStorage['show_date']) {
-    	showdateCheckbox.checked = JSON.parse(localStorage['show_date']);
-    }
-    if(localStorage['show_second']) {
-    	showsecondCheckbox.checked = JSON.parse(localStorage['show_second']);
-    }
-    if(localStorage['show_battery']) {
-    	showbatteryCheckbox.checked = JSON.parse(localStorage['show_battery']);
-    }
+    invertCheckbox.checked = JSON.parse(localStorage['invert']);
+    connectionCheckbox.checked = JSON.parse(localStorage['connection']);
+    showticksCheckbox.checked = JSON.parse(localStorage['show_ticks']);
+    showdateCheckbox.checked = JSON.parse(localStorage['show_date']);
+    showsecondCheckbox.checked = JSON.parse(localStorage['show_second']);
+    showbatteryCheckbox.checked = JSON.parse(localStorage['show_battery']);
     roundColorPicker.value = localStorage['round_color'];
   })();
   </script>
