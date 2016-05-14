@@ -76,16 +76,6 @@
     </div>
 
     <div class='item-container'>
-      <div class='item-container-header'>Customizability</div>
-      <div class='item-container-content'>
-        <label class='item'>
-          Round color
-          <input id='round_color_picker' type='text' class='item-color item-color-sunny' value='#000000'>
-        </label>
-      </div>
-    </div>
-
-    <div class='item-container'>
       <div class='button-container'>
         <input id='submit_button' type='button' class='item-button' value='SAVE'>
       </div>
@@ -100,7 +90,6 @@
     var showdateCheckbox = document.getElementById('show_date_checkbox');
     var showsecondCheckbox = document.getElementById('show_second_checkbox');
     var showbatteryCheckbox = document.getElementById('show_battery_checkbox');
-    var roundColorPicker = document.getElementById('round_color_picker');
  
     var options = {
       'invert': invertCheckbox.checked,
@@ -108,8 +97,7 @@
       'show_ticks': showticksCheckbox.checked,
       'show_date': showdateCheckbox.checked,
       'show_second': showsecondCheckbox.checked,
-      'show_battery': showbatteryCheckbox.checked,
-      'round_color': roundColorPicker.value
+      'show_battery': showbatteryCheckbox.checked
     };
 
     // Save for next launch
@@ -119,7 +107,6 @@
     localStorage['show_date'] = options['show_date'];
     localStorage['show_second'] = options['show_second'];
     localStorage['show_battery'] = options['show_battery'];
-    localStorage['round_color'] = options['round_color'];
 
     console.log('Got options: ' + JSON.stringify(options));
     return options;
@@ -153,7 +140,6 @@
     var showdateCheckbox = document.getElementById('show_date_checkbox');
     var showsecondCheckbox = document.getElementById('show_second_checkbox');
     var showbatteryCheckbox = document.getElementById('show_battery_checkbox');
-    var roundColorPicker = document.getElementById('round_color_picker');
 
     // Load any previously saved configuration, if available
     invertCheckbox.checked = JSON.parse(localStorage['invert']);
@@ -162,7 +148,6 @@
     showdateCheckbox.checked = JSON.parse(localStorage['show_date']);
     showsecondCheckbox.checked = JSON.parse(localStorage['show_second']);
     showbatteryCheckbox.checked = JSON.parse(localStorage['show_battery']);
-    roundColorPicker.value = localStorage['round_color'];
   })();
   </script>
 </html>
