@@ -7,11 +7,11 @@
 #define KEY_SHOW_SECOND 4
 #define KEY_SHOW_BATTERY 5
 
-//static void init();
 static void window_load(Window *window);
 static void window_unload(Window *window);
 
 static Window *s_window;
+
 static Layer *s_ticks_layer;
 
 static Layer *s_hands_layer, *s_second_layer;
@@ -25,7 +25,8 @@ static GBitmap *s_connection_bitmap;
 
 static Layer *s_battery_layer;
 static int s_battery_level;
-
+ 
+static uint32_t connection_icon;
 static GColor invert_color_1, invert_color_2;
 static TimeUnits event_time;
 
@@ -335,11 +336,16 @@ static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
+	persist_write_bool(KEY_INVERT, false);
+	persist_write_bool(KEY_CONNECTION, true);
+	
 	if(persist_read_bool(KEY_INVERT)) {
+		connection_icon = RESOURCE_ID_NOT_CONNECTION_STATE_BLACK;
 		invert_color_1 = GColorBlack;
 		invert_color_2 = GColorWhite;
 	}
 	else {
+		connection_icon = RESOURCE_ID_NOT_CONNECTION_STATE_WHITE;
 		invert_color_1 = GColorWhite;
 		invert_color_2 = GColorBlack;
 	}
@@ -358,7 +364,7 @@ static void window_load(Window *window) {
 	}
 	
 	s_connection_layer = bitmap_layer_create(PBL_IF_ROUND_ELSE(GRect(80, 115, 20, 36), GRect(62, 105, 20, 36)));
-	s_connection_bitmap = gbitmap_create_with_resource(RESOURCE_ID_NOT_CONNECTION_STATE);
+	s_connection_bitmap = gbitmap_create_with_resource(connection_icon);
 	if(persist_read_bool(KEY_CONNECTION)) {
 		handle_bluetooth(bluetooth_connection_service_peek());
 		layer_add_child(window_layer, bitmap_layer_get_layer(s_connection_layer));
@@ -430,12 +436,8 @@ static void init() {
 	app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 	
   tick_timer_service_subscribe(event_time, handle_second_tick);
-	if(persist_read_bool(KEY_CONNECTION)) {
-		bluetooth_connection_service_subscribe(handle_bluetooth);
-	}
-	if(persist_read_bool(KEY_SHOW_BATTERY)) {
-		battery_state_service_subscribe(handle_battery);
-	}
+	bluetooth_connection_service_subscribe(handle_bluetooth);
+	battery_state_service_subscribe(handle_battery);
 }
 
 static void deinit() {

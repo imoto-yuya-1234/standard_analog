@@ -17,9 +17,23 @@
     "resources": {
         "media": [
             {
-                "file": "images/not_connection_state",
-                "name": "NOT_CONNECTION_STATE",
-                "targetPlatforms": null,
+                "file": "images/not_connection_state_white",
+                "name": "NOT_CONNECTION_STATE_WHITE",
+                "targetPlatforms": [
+                    "aplite",
+                    "basalt",
+                    "chalk"
+                ],
+                "type": "bitmap"
+            },
+            {
+                "file": "images/not_connection_state_black",
+                "name": "NOT_CONNECTION_STATE_BLACK",
+                "targetPlatforms": [
+                    "aplite",
+                    "basalt",
+                    "chalk"
+                ],
                 "type": "bitmap"
             }
         ]
