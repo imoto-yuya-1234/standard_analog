@@ -38,6 +38,11 @@ Pebble.addEventListener("webviewclosed",
   	
 		var show_battery = configData['show_battery'];
 		dict['KEY_SHOW_BATTERY'] = configData['show_battery'] ? 1 : 0;
+		
+		var round_color = configData['round_color'];
+		dict['KEY_COLOR_RED'] = parseInt(round_color.substring(2, 4), 16);
+    dict['KEY_COLOR_GREEN'] = parseInt(round_color.substring(4, 6), 16);
+    dict['KEY_COLOR_BLUE'] = parseInt(round_color.substring(6), 16);
   	
 		// Send to watchapp
 		Pebble.sendAppMessage(dict, function() {

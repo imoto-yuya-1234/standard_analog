@@ -1,5 +1,8 @@
 {
     "appKeys": {
+        "KEY_COLOR_BLUE": 8,
+        "KEY_COLOR_GREEN": 7,
+        "KEY_COLOR_RED": 6,
         "KEY_CONNECTION": 1,
         "KEY_INVERT": 0,
         "KEY_SHOW_BATTERY": 5,

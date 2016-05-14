@@ -1,14 +1,5 @@
 #include "pebble.h"
-
-#define KEY_INVERT 0
-#define KEY_CONNECTION 1
-#define KEY_SHOW_TICKS 2
-#define KEY_SHOW_DATE 3
-#define KEY_SHOW_SECOND 4
-#define KEY_SHOW_BATTERY 5
-
-static void window_load(Window *window);
-static void window_unload(Window *window);
+#include "config.h"
 
 static Window *s_window;
 
@@ -25,6 +16,7 @@ static GBitmap *s_connection_bitmap;
 
 static Layer *s_battery_layer;
 static int s_battery_level;
+static GColor round_color;
  
 static uint32_t connection_icon;
 static GColor invert_color_1, invert_color_2;
@@ -167,8 +159,8 @@ static void second_update_proc(Layer *layer, GContext *ctx) {
   int32_t second_angle = TRIG_MAX_ANGLE * t->tm_sec / 60;
 	graphics_context_set_stroke_color(ctx, PBL_IF_COLOR_ELSE(GColorRed, invert_color_2));
   GPoint second_hand_start = {
-    .x = (int16_t)(sin_lookup(second_angle) * (int32_t)(second_hand_length - 3) / TRIG_MAX_RATIO) + center.x,
-    .y = (int16_t)(-cos_lookup(second_angle) * (int32_t)(second_hand_length - 3) / TRIG_MAX_RATIO) + center.y,
+    .x = (int16_t)(sin_lookup(second_angle) * (int32_t)(second_hand_length - 5) / TRIG_MAX_RATIO) + center.x,
+    .y = (int16_t)(-cos_lookup(second_angle) * (int32_t)(second_hand_length - 5) / TRIG_MAX_RATIO) + center.y,
   };
 	GPoint second_hand_end = {
     .x =  - (int16_t)(sin_lookup(180 + second_angle) * 15 / TRIG_MAX_RATIO) + center.x,
@@ -176,13 +168,7 @@ static void second_update_proc(Layer *layer, GContext *ctx) {
   };
   graphics_context_set_stroke_width(ctx, 1);
   graphics_draw_line(ctx, second_hand_start, second_hand_end);
-	// second hand decorate
-	GPoint second_hand_deco = {
-    .x = (int16_t)(sin_lookup(second_angle) * (int32_t)(second_hand_length - 8) / TRIG_MAX_RATIO) + center.x,
-    .y = (int16_t)(-cos_lookup(second_angle) * (int32_t)(second_hand_length - 8) / TRIG_MAX_RATIO) + center.y,
-  };
-	graphics_context_set_fill_color(ctx, PBL_IF_COLOR_ELSE(GColorRed, invert_color_2));
-	graphics_fill_circle(ctx, second_hand_deco, 5);
+	
   // dot in the middle
   graphics_fill_circle(ctx, center, 2);
 }
@@ -210,13 +196,13 @@ static void battery_update_proc(Layer *layer, GContext *ctx) {
 	#if defined(PBL_ROUND) 
   int32_t angle_start = DEG_TO_TRIGANGLE(0);
 	int32_t angle_end = DEG_TO_TRIGANGLE((int32_t)(360 * s_battery_level / 100));
-	graphics_context_set_fill_color(ctx, GColorIslamicGreen);
+	graphics_context_set_fill_color(ctx, round_color);
 	graphics_fill_radial(ctx, bounds, GOvalScaleModeFitCircle, 8, angle_start, angle_end);
 	#elif defined(PBL_RECT)
 	int32_t decre_length = (int32_t)(604 - 604 * s_battery_level / 100);
 	int32_t decre_1 = 0, decre_2 = 0, decre_3 = 0, decre_4 = 0, decre_5 = 0;
-	graphics_context_set_fill_color(ctx, GColorIslamicGreen);
-	graphics_context_set_stroke_color(ctx , GColorIslamicGreen);
+	graphics_context_set_fill_color(ctx, round_color);
+	graphics_context_set_stroke_color(ctx , round_color);
 	if(decre_length < 67) {
 		decre_1 = decre_length;
 	}
@@ -272,72 +258,19 @@ static void handle_battery(BatteryChargeState charge_state) {
 	}
 }
 
-static void in_recv_handler(DictionaryIterator *iter, void *context) {
-	Tuple *invert_t = dict_find(iter, KEY_INVERT);
-  if(invert_t && invert_t->value->int8 > 0) {  // Read boolean as an integer
-    // Persist value
-    persist_write_bool(KEY_INVERT, true);
-  } 
-	else {
-    persist_write_bool(KEY_INVERT, false);
-  }
-	
-	Tuple *connection_t = dict_find(iter, KEY_CONNECTION);
-  if(connection_t && connection_t->value->int8 > 0) {  // Read boolean as an integer
-    // Persist value
-    persist_write_bool(KEY_CONNECTION, true);
-  } 
-	else {
-    persist_write_bool(KEY_CONNECTION, false);
-  }
-	
-	Tuple *show_ticks_t = dict_find(iter, KEY_SHOW_TICKS);
-	if(show_ticks_t && show_ticks_t->value->int8 > 0) {
-		persist_write_bool(KEY_SHOW_TICKS, true);
-	} 
-	else {
-		persist_write_bool(KEY_SHOW_TICKS, false);
-	}
-	
-	Tuple *show_date_t = dict_find(iter, KEY_SHOW_DATE);
-	if(show_date_t && show_date_t->value->int8 > 0) {
-		persist_write_bool(KEY_SHOW_DATE, true);
-	} 
-	else {
-		persist_write_bool(KEY_SHOW_DATE, false);
-	}
-	
-	Tuple *show_second_t = dict_find(iter, KEY_SHOW_SECOND);
-	if(show_second_t && show_second_t->value->int8 > 0) {
-		persist_write_bool(KEY_SHOW_SECOND, true);
-	} 
-	else {
-		persist_write_bool(KEY_SHOW_SECOND, false);
-	}
-	
-	Tuple *show_battery_t = dict_find(iter, KEY_SHOW_BATTERY);
-	if(show_battery_t && show_battery_t->value->int8 > 0) {
-		persist_write_bool(KEY_SHOW_BATTERY, true);
-	} 
-	else {
-		persist_write_bool(KEY_SHOW_BATTERY, false);
-	}
-		
-	window_stack_remove(s_window, true);
-	s_window = window_create();
-  window_set_window_handlers(s_window, (WindowHandlers) {
-    .load = window_load,
-    .unload = window_unload,
-  });
-  window_stack_push(s_window, true);
-}
-
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
-	persist_write_bool(KEY_INVERT, false);
+	persist_write_bool(KEY_INVERT, true);
 	persist_write_bool(KEY_CONNECTION, true);
+	persist_write_bool(KEY_SHOW_TICKS, true);
+	persist_write_bool(KEY_SHOW_DATE, true);
+	persist_write_bool(KEY_SHOW_SECOND, true);
+	persist_write_bool(KEY_SHOW_BATTERY, true);
+	persist_write_int(KEY_COLOR_RED, 0);
+	persist_write_int(KEY_COLOR_GREEN, 255);
+	persist_write_int(KEY_COLOR_BLUE, 0);
 	
 	if(persist_read_bool(KEY_INVERT)) {
 		connection_icon = RESOURCE_ID_NOT_CONNECTION_STATE_BLACK;
@@ -351,6 +284,11 @@ static void window_load(Window *window) {
 	}
 	
 	window_set_background_color(s_window, invert_color_1);
+	
+	int red = persist_read_int(KEY_COLOR_RED);
+  int green = persist_read_int(KEY_COLOR_GREEN);
+  int blue = persist_read_int(KEY_COLOR_BLUE);
+	round_color = GColorFromRGB(red, green, blue);
 	
 	s_battery_layer = layer_create(bounds);
 	handle_battery(battery_state_service_peek());
@@ -424,13 +362,22 @@ static void window_unload(Window *window) {
 	gbitmap_destroy(s_connection_bitmap);
 }
 
-static void init() {
-  s_window = window_create();
+static void load_window() {
+	s_window = window_create();
   window_set_window_handlers(s_window, (WindowHandlers) {
     .load = window_load,
     .unload = window_unload,
   });
   window_stack_push(s_window, true);
+}
+
+static void reload_window() {
+	window_stack_remove(s_window, true);
+	load_window();
+}
+
+static void init() {
+	load_window();
 	
 	app_message_register_inbox_received((AppMessageInboxReceived) in_recv_handler);
 	app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
