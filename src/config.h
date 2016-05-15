@@ -6,9 +6,6 @@
 #define KEY_SHOW_DATE     3
 #define KEY_SHOW_SECOND   4
 #define KEY_SHOW_BATTERY  5
-#define KEY_COLOR_RED     6
-#define KEY_COLOR_GREEN   7
-#define KEY_COLOR_BLUE    8
 
 static void reload_window();
 
@@ -61,22 +58,6 @@ static void in_recv_handler(DictionaryIterator *iter, void *context) {
 	} 
 	else {
 		persist_write_bool(KEY_SHOW_BATTERY, false);
-	}
-	
-	// Color
-  Tuple *color_red_t = dict_find(iter, KEY_COLOR_RED);
-  Tuple *color_green_t = dict_find(iter, KEY_COLOR_GREEN);
-  Tuple *color_blue_t = dict_find(iter, KEY_COLOR_BLUE);
-  if(color_red_t && color_green_t && color_blue_t) {
-    // Apply the color if available
-    int red = color_red_t->value->int32;
-    int green = color_green_t->value->int32;
-    int blue = color_blue_t->value->int32;
-
-    // Persist values
-    persist_write_int(KEY_COLOR_RED, red);
-    persist_write_int(KEY_COLOR_GREEN, green);
-    persist_write_int(KEY_COLOR_BLUE, blue);
 	}
 		
 	reload_window();

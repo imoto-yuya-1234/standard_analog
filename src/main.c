@@ -16,7 +16,6 @@ static GBitmap *s_connection_bitmap;
 
 static Layer *s_battery_layer;
 static int s_battery_level;
-static GColor round_color;
  
 static uint32_t connection_icon;
 static GColor invert_color_1, invert_color_2;
@@ -122,7 +121,7 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
 	graphics_context_set_stroke_color(ctx, invert_color_2);
 	
 	// hour hand
-	const int16_t hour_hand_length = PBL_IF_ROUND_ELSE(bounds.size.w / 2 - 35, bounds.size.w / 2 - 20);
+	const int16_t hour_hand_length = PBL_IF_ROUND_ELSE(bounds.size.w / 2 - 30, bounds.size.w / 2 - 20);
 	int32_t hour_hand_angle = (TRIG_MAX_ANGLE * (((hour % 12) * 6) + (min / 10))) / (12 * 6);
 	GPoint hour_hand_start = {
 		.x = (int16_t)(sin_lookup(hour_hand_angle) * (int32_t)(hour_hand_length) / TRIG_MAX_RATIO) + center.x,
@@ -132,7 +131,7 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
   graphics_draw_line(ctx, hour_hand_start, center);
 	
 	// minute hand
-	const int16_t minute_hand_length = PBL_IF_ROUND_ELSE(bounds.size.w / 2 - 15, bounds.size.w / 2);
+	const int16_t minute_hand_length = PBL_IF_ROUND_ELSE(bounds.size.w / 2 - 15, bounds.size.w / 2 - 5);
 	int32_t minute_hand_angle = TRIG_MAX_ANGLE * min / 60;
 	GPoint minute_hand_start = {
 		.x = (int16_t)(sin_lookup(minute_hand_angle) * (int32_t)(minute_hand_length) / TRIG_MAX_RATIO) + center.x,
@@ -168,7 +167,13 @@ static void second_update_proc(Layer *layer, GContext *ctx) {
   };
   graphics_context_set_stroke_width(ctx, 1);
   graphics_draw_line(ctx, second_hand_start, second_hand_end);
-	
+	// second hand decorate
+	GPoint second_hand_deco = {
+    .x = (int16_t)(sin_lookup(second_angle) * (int32_t)(second_hand_length - 8) / TRIG_MAX_RATIO) + center.x,
+    .y = (int16_t)(-cos_lookup(second_angle) * (int32_t)(second_hand_length - 8) / TRIG_MAX_RATIO) + center.y,
+  };
+	graphics_context_set_fill_color(ctx, PBL_IF_COLOR_ELSE(GColorRed, GColorWhite));
+	graphics_fill_circle(ctx, second_hand_deco, 5);
   // dot in the middle
   graphics_fill_circle(ctx, center, 2);
 }
@@ -196,13 +201,13 @@ static void battery_update_proc(Layer *layer, GContext *ctx) {
 	#if defined(PBL_ROUND) 
   int32_t angle_start = DEG_TO_TRIGANGLE(0);
 	int32_t angle_end = DEG_TO_TRIGANGLE((int32_t)(360 * s_battery_level / 100));
-	graphics_context_set_fill_color(ctx, round_color);
+	graphics_context_set_fill_color(ctx, GColorIslamicGreen);
 	graphics_fill_radial(ctx, bounds, GOvalScaleModeFitCircle, 8, angle_start, angle_end);
 	#elif defined(PBL_RECT)
 	int32_t decre_length = (int32_t)(604 - 604 * s_battery_level / 100);
 	int32_t decre_1 = 0, decre_2 = 0, decre_3 = 0, decre_4 = 0, decre_5 = 0;
-	graphics_context_set_fill_color(ctx, round_color);
-	graphics_context_set_stroke_color(ctx , round_color);
+	graphics_context_set_fill_color(ctx, GColorIslamicGreen);
+	graphics_context_set_stroke_color(ctx , GColorIslamicGreen);
 	if(decre_length < 67) {
 		decre_1 = decre_length;
 	}
@@ -250,28 +255,13 @@ static void handle_bluetooth(bool connected) {
 }
 
 static void handle_battery(BatteryChargeState charge_state) {
-	if(persist_read_bool(KEY_SHOW_BATTERY)) {
 		s_battery_level = charge_state.charge_percent;
-	}
-	else {
-		s_battery_level = 100;
-	}
 }
 
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
-	persist_write_bool(KEY_INVERT, true);
-	persist_write_bool(KEY_CONNECTION, true);
-	persist_write_bool(KEY_SHOW_TICKS, true);
-	persist_write_bool(KEY_SHOW_DATE, true);
-	persist_write_bool(KEY_SHOW_SECOND, true);
-	persist_write_bool(KEY_SHOW_BATTERY, true);
-	persist_write_int(KEY_COLOR_RED, 0);
-	persist_write_int(KEY_COLOR_GREEN, 255);
-	persist_write_int(KEY_COLOR_BLUE, 0);
-	
 	if(persist_read_bool(KEY_INVERT)) {
 		connection_icon = RESOURCE_ID_NOT_CONNECTION_STATE_BLACK;
 		invert_color_1 = GColorBlack;
@@ -285,15 +275,12 @@ static void window_load(Window *window) {
 	
 	window_set_background_color(s_window, invert_color_1);
 	
-	int red = persist_read_int(KEY_COLOR_RED);
-  int green = persist_read_int(KEY_COLOR_GREEN);
-  int blue = persist_read_int(KEY_COLOR_BLUE);
-	round_color = GColorFromRGB(red, green, blue);
-	
 	s_battery_layer = layer_create(bounds);
-	handle_battery(battery_state_service_peek());
-	layer_set_update_proc(s_battery_layer, battery_update_proc);
-	layer_add_child(window_layer, s_battery_layer);
+	if(persist_read_bool(KEY_SHOW_BATTERY)) {
+		handle_battery(battery_state_service_peek());
+		layer_set_update_proc(s_battery_layer, battery_update_proc);
+		layer_add_child(window_layer, s_battery_layer);
+	}
 	
 	s_ticks_layer = layer_create(bounds);
 	if(persist_read_bool(KEY_SHOW_TICKS)) {

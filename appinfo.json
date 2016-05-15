@@ -1,8 +1,5 @@
 {
     "appKeys": {
-        "KEY_COLOR_BLUE": 8,
-        "KEY_COLOR_GREEN": 7,
-        "KEY_COLOR_RED": 6,
         "KEY_CONNECTION": 1,
         "KEY_INVERT": 0,
         "KEY_SHOW_BATTERY": 5,
@@ -49,7 +46,7 @@
         "chalk"
     ],
     "uuid": "2aa7956b-b3b5-4905-9e1c-9cef3a1f878c",
-    "versionLabel": "2.0",
+    "versionLabel": "3.0",
     "watchapp": {
         "watchface": true
     }
