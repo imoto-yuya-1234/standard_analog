@@ -361,6 +361,9 @@ static void load_window() {
 static void reload_window() {
 	window_stack_remove(s_window, true);
 	load_window();
+	
+  tick_timer_service_unsubscribe();
+  tick_timer_service_subscribe(event_time, handle_second_tick);
 }
 
 static void init() {
