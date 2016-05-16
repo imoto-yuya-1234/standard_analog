@@ -261,6 +261,8 @@ static void handle_battery(BatteryChargeState charge_state) {
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
+	
+	key_initialize();
 
 	if(persist_read_bool(KEY_INVERT)) {
 		connection_icon = RESOURCE_ID_NOT_CONNECTION_STATE_BLACK;

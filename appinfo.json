@@ -1,6 +1,7 @@
 {
     "appKeys": {
         "KEY_CONNECTION": 1,
+        "KEY_INIT": 6,
         "KEY_INVERT": 0,
         "KEY_SHOW_BATTERY": 5,
         "KEY_SHOW_DATE": 3,
@@ -16,6 +17,17 @@
     "projectType": "native",
     "resources": {
         "media": [
+            {
+                "file": "images/image_main",
+                "menuIcon": true,
+                "name": "IMAGE_MAIN",
+                "targetPlatforms": [
+                    "aplite",
+                    "basalt",
+                    "chalk"
+                ],
+                "type": "bitmap"
+            },
             {
                 "file": "images/not_connection_state_white",
                 "name": "NOT_CONNECTION_STATE_WHITE",
@@ -46,7 +58,7 @@
         "chalk"
     ],
     "uuid": "2aa7956b-b3b5-4905-9e1c-9cef3a1f878c",
-    "versionLabel": "3.1",
+    "versionLabel": "3.2",
     "watchapp": {
         "watchface": true
     }

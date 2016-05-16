@@ -6,6 +6,7 @@
 #define KEY_SHOW_DATE     3
 #define KEY_SHOW_SECOND   4
 #define KEY_SHOW_BATTERY  5
+#define KEY_INIT					6
 
 static void reload_window();
 
@@ -61,4 +62,16 @@ static void in_recv_handler(DictionaryIterator *iter, void *context) {
 	}
 		
 	reload_window();
+}
+
+static void key_initialize() {
+	if(!persist_read_bool(KEY_INIT)) {
+		persist_write_bool(KEY_INVERT, true);
+		persist_write_bool(KEY_CONNECTION, true);
+		persist_write_bool(KEY_SHOW_TICKS, true);
+		persist_write_bool(KEY_SHOW_DATE, true);
+		persist_write_bool(KEY_SHOW_SECOND, true);
+		persist_write_bool(KEY_SHOW_BATTERY, false);
+		persist_write_bool(KEY_INIT, true);
+	}
 }
