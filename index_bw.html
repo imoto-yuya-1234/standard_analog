@@ -78,6 +78,19 @@
     </div>
 
     <div class='item-container'>
+      <div class='item-container-content'>
+        <label class='item'>
+          Language for day of the week
+          <select id="lang_select" style="color:#000000">
+          <option value="en">English</option>
+	  <option value="fr">French</option>
+          <option value="de">German</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class='item-container'>
       <div class='button-container'>
         <input id='submit_button' type='button' class='item-button' value='SAVE'>
       </div>
@@ -95,6 +108,7 @@
     var showdayCheckbox = document.getElementById('show_day_checkbox');
     var showsecondCheckbox = document.getElementById('show_second_checkbox');
     var showbatteryCheckbox = document.getElementById('show_battery_checkbox');
+    var langSelect = document.getElementById('lang_select');
  
     var options = {
       'invert': invertCheckbox.checked,
@@ -102,7 +116,8 @@
       'show_ticks': showticksCheckbox.checked,
       'show_day': showdayCheckbox.checked,
       'show_second': showsecondCheckbox.checked,
-      'show_battery': showbatteryCheckbox.checked
+      'show_battery': showbatteryCheckbox.checked,
+      'lang': langSelect.value
     };
 
     // Save for next launch
@@ -112,6 +127,7 @@
     localStorage['show_day'] = options['show_day'];
     localStorage['show_second'] = options['show_second'];
     localStorage['show_battery'] = options['show_battery'];
+    localStorage['lang'] = options['lang'];
 
     console.log('Got options: ' + JSON.stringify(options));
     return options;
@@ -145,6 +161,7 @@
     var showdayCheckbox = document.getElementById('show_day_checkbox');
     var showsecondCheckbox = document.getElementById('show_second_checkbox');
     var showbatteryCheckbox = document.getElementById('show_battery_checkbox');
+    var langSelect = document.getElementById('lang_select');
 
     // Load any previously saved configuration, if available
     invertCheckbox.checked = JSON.parse(localStorage['invert']);
@@ -153,6 +170,6 @@
     showdayCheckbox.checked = JSON.parse(localStorage['show_day']);
     showsecondCheckbox.checked = JSON.parse(localStorage['show_second']);
     showbatteryCheckbox.checked = JSON.parse(localStorage['show_battery']);
-  })();
+    langSelect.value = JSON.parse(localStorage['lang']);
   </script>
 </html>
