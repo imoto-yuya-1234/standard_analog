@@ -1,12 +1,13 @@
 {
     "appKeys": {
-        "KEY_CONNECTION": 1,
-        "KEY_INIT": 6,
-        "KEY_INVERT": 0,
-        "KEY_SHOW_BATTERY": 5,
-        "KEY_SHOW_DATE": 3,
-        "KEY_SHOW_SECOND": 4,
-        "KEY_SHOW_TICKS": 2
+        "KEY_CONNECTION": 2,
+        "KEY_INIT": 0,
+        "KEY_INVERT": 1,
+        "KEY_LANG": 7,
+        "KEY_SHOW_BATTERY": 6,
+        "KEY_SHOW_DAY": 4,
+        "KEY_SHOW_SECOND": 5,
+        "KEY_SHOW_TICKS": 3
     },
     "capabilities": [
         "configurable"
@@ -58,7 +59,7 @@
         "chalk"
     ],
     "uuid": "2aa7956b-b3b5-4905-9e1c-9cef3a1f878c",
-    "versionLabel": "3.2",
+    "versionLabel": "4.0",
     "watchapp": {
         "watchface": true
     }
