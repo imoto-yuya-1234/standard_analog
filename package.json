@@ -23,68 +23,39 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/image_I",
-                    "name": "IMAGE_I",
-                    "targetPlatforms": null,
+                    "file": "images/not_connection_state_white",
+                    "name": "NOT_CONNECTION_STATE_WHITE",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk"
+                    ],
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/image_R",
-                    "name": "IMAGE_R",
-                    "targetPlatforms": null,
+                    "file": "images/not_connection_state_black",
+                    "name": "NOT_CONNECTION_STATE_BLACK",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk"
+                    ],
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/image_F",
-                    "name": "IMAGE_F",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_H",
-                    "name": "IMAGE_H",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_T",
-                    "name": "IMAGE_T",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_D",
-                    "name": "IMAGE_D",
-                    "targetPlatforms": null,
+                    "file": "images/image_main",
+                    "menuIcon": true,
+                    "name": "IMAGE_MAIN",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk"
+                    ],
                     "type": "bitmap"
                 },
                 {
                     "file": "images/image_W",
                     "name": "IMAGE_W",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_E",
-                    "name": "IMAGE_E",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_O",
-                    "name": "IMAGE_O",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_M",
-                    "name": "IMAGE_M",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_N",
-                    "name": "IMAGE_N",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -95,8 +66,68 @@
                     "type": "bitmap"
                 },
                 {
+                    "file": "images/image_T",
+                    "name": "IMAGE_T",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/image_S",
                     "name": "IMAGE_S",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_R",
+                    "name": "IMAGE_R",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_O",
+                    "name": "IMAGE_O",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_N",
+                    "name": "IMAGE_N",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_M",
+                    "name": "IMAGE_M",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_I",
+                    "name": "IMAGE_I",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_H",
+                    "name": "IMAGE_H",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_F",
+                    "name": "IMAGE_F",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_E",
+                    "name": "IMAGE_E",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_D",
+                    "name": "IMAGE_D",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -158,37 +189,6 @@
                     "file": "images/image_0",
                     "name": "IMAGE_0",
                     "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_main",
-                    "menuIcon": true,
-                    "name": "IMAGE_MAIN",
-                    "targetPlatforms": [
-                        "aplite",
-                        "basalt",
-                        "chalk"
-                    ],
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/not_connection_state_white",
-                    "name": "NOT_CONNECTION_STATE_WHITE",
-                    "targetPlatforms": [
-                        "aplite",
-                        "basalt",
-                        "chalk"
-                    ],
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/not_connection_state_black",
-                    "name": "NOT_CONNECTION_STATE_BLACK",
-                    "targetPlatforms": [
-                        "aplite",
-                        "basalt",
-                        "chalk"
-                    ],
                     "type": "bitmap"
                 }
             ]

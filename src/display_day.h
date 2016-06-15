@@ -1,12 +1,14 @@
 #pragma once
 
 #include <pebble.h>
+#include <effect_layer/effect_layer.h>
 #include "config.h"
 
 Layer *g_window_layer;
 GRect g_bounds;
 GPoint g_center; 
 
+static EffectLayer *effect_layer;
 static Layer *s_date_layer;
 static TextLayer *s_day_label, *s_num_label;
 static char s_num_buffer[4], s_day_buffer[6];
@@ -138,6 +140,11 @@ void display_day() {
 		s_day1_bitmap = gbitmap_create_with_resource(test);
 		bitmap_layer_set_bitmap(s_day1_layer, s_day1_bitmap);
 		layer_add_child(g_window_layer, bitmap_layer_get_layer(s_day1_layer));
+		
+  	effect_layer = effect_layer_create(GRect(0,(g_bounds.size.h-g_bounds.size.w)/2-1,g_bounds.size.w,g_bounds.size.w));
+  	layer_add_child(s_date_layer, effect_layer_get_layer(effect_layer));
+   	effect_layer_remove_effect(effect_layer);
+    effect_layer_add_effect(effect_layer,effect_rotate_90_degrees,(void*)true);
 	}
 }
 
