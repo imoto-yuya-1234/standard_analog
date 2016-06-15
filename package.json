@@ -1,0 +1,208 @@
+{
+    "author": "Yuya Imoto",
+    "dependencies": {},
+    "keywords": [],
+    "name": "standard-analog",
+    "pebble": {
+        "capabilities": [
+            "configurable"
+        ],
+        "displayName": "Standard Analog",
+        "enableMultiJS": true,
+        "messageKeys": {
+            "KEY_CONNECTION": 2,
+            "KEY_INIT": 0,
+            "KEY_INVERT": 1,
+            "KEY_LANG": 7,
+            "KEY_SHOW_BATTERY": 6,
+            "KEY_SHOW_DAY": 4,
+            "KEY_SHOW_SECOND": 5,
+            "KEY_SHOW_TICKS": 3
+        },
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/image_I",
+                    "name": "IMAGE_I",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_R",
+                    "name": "IMAGE_R",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_F",
+                    "name": "IMAGE_F",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_H",
+                    "name": "IMAGE_H",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_T",
+                    "name": "IMAGE_T",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_D",
+                    "name": "IMAGE_D",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_W",
+                    "name": "IMAGE_W",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_E",
+                    "name": "IMAGE_E",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_O",
+                    "name": "IMAGE_O",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_M",
+                    "name": "IMAGE_M",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_N",
+                    "name": "IMAGE_N",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_U",
+                    "name": "IMAGE_U",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_S",
+                    "name": "IMAGE_S",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_9",
+                    "name": "IMAGE_9",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_8",
+                    "name": "IMAGE_8",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_7",
+                    "name": "IMAGE_7",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_6",
+                    "name": "IMAGE_6",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_5",
+                    "name": "IMAGE_5",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_4",
+                    "name": "IMAGE_4",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_3",
+                    "name": "IMAGE_3",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_2",
+                    "name": "IMAGE_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_1",
+                    "name": "IMAGE_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_0",
+                    "name": "IMAGE_0",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_main",
+                    "menuIcon": true,
+                    "name": "IMAGE_MAIN",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/not_connection_state_white",
+                    "name": "NOT_CONNECTION_STATE_WHITE",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/not_connection_state_black",
+                    "name": "NOT_CONNECTION_STATE_BLACK",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk"
+                    ],
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk"
+        ],
+        "uuid": "2aa7956b-b3b5-4905-9e1c-9cef3a1f878c",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "4.0.0"
+}
