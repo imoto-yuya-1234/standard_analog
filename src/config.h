@@ -10,6 +10,7 @@
 #define KEY_SHOW_SECOND   5
 #define KEY_SHOW_BATTERY  6
 #define KEY_LANG					7
+#define KEY_ROTATE				8
 
 extern uint32_t g_connection_icon;
 extern GColor g_bg_color, g_ticks_color, g_minute_color, g_second_color;
@@ -69,7 +70,15 @@ static void in_recv_handler(DictionaryIterator *iter, void *context) {
 	
 	Tuple *lang_t = dict_find(iter, KEY_LANG);
 	persist_write_string(KEY_LANG, lang_t->value->cstring);
-		
+	
+	Tuple *rotate_t = dict_find(iter, KEY_ROTATE);
+	if(rotate_t && rotate_t->value->int8 > 0) {
+		persist_write_bool(KEY_ROTATE, true);
+	} 
+	else {
+		persist_write_bool(KEY_ROTATE, false);
+	}
+	
 	reload_window();
 }
 
@@ -83,6 +92,7 @@ void initialize_value() {
 		persist_write_bool(KEY_SHOW_SECOND, true);
 		persist_write_bool(KEY_SHOW_BATTERY, false);
 		persist_write_string(KEY_LANG, "en");
+		persist_write_bool(KEY_ROTATE, true);
 	}
 	
 	if(persist_read_bool(KEY_INVERT)) {

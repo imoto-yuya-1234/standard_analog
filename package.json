@@ -14,6 +14,7 @@
             "KEY_INIT": 0,
             "KEY_INVERT": 1,
             "KEY_LANG": 7,
+            "KEY_ROTATE": 8,
             "KEY_SHOW_BATTERY": 6,
             "KEY_SHOW_DAY": 4,
             "KEY_SHOW_SECOND": 5,
@@ -22,6 +23,12 @@
         "projectType": "native",
         "resources": {
             "media": [
+                {
+                    "file": "fonts/font_gidole_16",
+                    "name": "FONT_GIDOLE_16",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
                 {
                     "file": "images/not_connection_state_white",
                     "name": "NOT_CONNECTION_STATE_WHITE",
@@ -51,144 +58,6 @@
                         "basalt",
                         "chalk"
                     ],
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_W",
-                    "name": "IMAGE_W",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_U",
-                    "name": "IMAGE_U",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_T",
-                    "name": "IMAGE_T",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_S",
-                    "name": "IMAGE_S",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_R",
-                    "name": "IMAGE_R",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_O",
-                    "name": "IMAGE_O",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_N",
-                    "name": "IMAGE_N",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_M",
-                    "name": "IMAGE_M",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_I",
-                    "name": "IMAGE_I",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_H",
-                    "name": "IMAGE_H",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_F",
-                    "name": "IMAGE_F",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_E",
-                    "name": "IMAGE_E",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_D",
-                    "name": "IMAGE_D",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_9",
-                    "name": "IMAGE_9",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_8",
-                    "name": "IMAGE_8",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_7",
-                    "name": "IMAGE_7",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_6",
-                    "name": "IMAGE_6",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_5",
-                    "name": "IMAGE_5",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_4",
-                    "name": "IMAGE_4",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_3",
-                    "name": "IMAGE_3",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_2",
-                    "name": "IMAGE_2",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_1",
-                    "name": "IMAGE_1",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
-                    "file": "images/image_0",
-                    "name": "IMAGE_0",
-                    "targetPlatforms": null,
                     "type": "bitmap"
                 }
             ]

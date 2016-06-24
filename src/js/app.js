@@ -7,7 +7,7 @@ Pebble.addEventListener("ready",
 Pebble.addEventListener("showConfiguration",
   function(e) {
     //Load the remote config page
-		var url = "https://imoto-yuya-1234.github.io/standard_analog/index.html";
+		var url = "https://imoto-yuya-1234.github.io/standard_analog/index_rot.html";
     Pebble.openURL(url);
 		console.log("Showing configuration page: " + url);
   }
@@ -41,6 +41,9 @@ Pebble.addEventListener("webviewclosed",
 		
 		var lang = configData['lang'];
 		dict['KEY_LANG'] = configData['lang'];
+		
+		var rotate = configData['rotate'];
+		dict['KEY_ROTATE'] = configData['rotate'] ? 1 : 0;
   	
 		// Send to watchapp
 		Pebble.sendAppMessage(dict, function() {

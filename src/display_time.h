@@ -19,7 +19,7 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
 	int16_t min = t->tm_min;
 	graphics_context_set_stroke_color(ctx, g_minute_color);
 	
-	if (battery_state_service_peek().is_charging) {
+	if (battery_state_service_peek().is_charging && persist_read_bool(KEY_ROTATE)) {
 		hour += 3;
 		min += 15;
 	}
@@ -54,7 +54,7 @@ static void second_update_proc(Layer *layer, GContext *ctx) {
   struct tm *t = localtime(&now);
 	int16_t sec = t->tm_sec;
 	
-	if (battery_state_service_peek().is_charging) {
+	if (battery_state_service_peek().is_charging && persist_read_bool(KEY_ROTATE)) {
 		sec += 15;
 	}
 	

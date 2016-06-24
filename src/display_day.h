@@ -8,15 +8,9 @@ Layer *g_window_layer;
 GRect g_bounds;
 GPoint g_center; 
 
-static EffectLayer *effect_layer;
 static Layer *s_date_layer;
 static TextLayer *s_day_label, *s_num_label;
 static char s_num_buffer[4], s_day_buffer[6];
-
-static BitmapLayer *s_day1_layer, *s_day2_layer, *s_day3_layer;
-static BitmapLayer *s_num1_layer, *s_num2_layer;
-static GBitmap *s_day1_bitmap, *s_day2_bitmap, *s_day3_bitmap;
-static GBitmap *s_num1_bitmap, *s_num2_bitmap;
 
 static void small2large(char *day_buffer) {
 	if(strcmp(day_buffer, "Sun") == 0) {
@@ -123,36 +117,29 @@ void display_day() {
 		layer_set_update_proc(s_date_layer, date_update_proc);
 		layer_add_child(g_window_layer, s_date_layer);
 
+		//GFont s_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_GIDOLE_16));
+		
 		text_layer_set_text(s_day_label, s_day_buffer);
 		text_layer_set_background_color(s_day_label, GColorClear);
 		text_layer_set_text_color(s_day_label, GColorBlack);
-		text_layer_set_font(s_day_label, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+		text_layer_set_font(s_day_label, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+		//text_layer_set_font(s_day_label, s_font);
 		layer_add_child(s_date_layer, text_layer_get_layer(s_day_label));
 
 		text_layer_set_text(s_num_label, s_num_buffer);
 		text_layer_set_background_color(s_num_label, GColorClear);
 		text_layer_set_text_color(s_num_label, GColorBlack);
 		text_layer_set_font(s_num_label, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+		//text_layer_set_font(s_num_label, s_font);
 		layer_add_child(s_date_layer, text_layer_get_layer(s_num_label));
-		
-		uint32_t test = RESOURCE_ID_IMAGE_0;
-		s_day1_layer = bitmap_layer_create(PBL_IF_ROUND_ELSE(GRect(80, 115, 20, 36), GRect(62, 105, 20, 36)));
-		s_day1_bitmap = gbitmap_create_with_resource(test);
-		bitmap_layer_set_bitmap(s_day1_layer, s_day1_bitmap);
-		layer_add_child(g_window_layer, bitmap_layer_get_layer(s_day1_layer));
-		
-  	effect_layer = effect_layer_create(GRect(0,(g_bounds.size.h-g_bounds.size.w)/2-1,g_bounds.size.w,g_bounds.size.w));
-  	layer_add_child(s_date_layer, effect_layer_get_layer(effect_layer));
-   	effect_layer_remove_effect(effect_layer);
-    effect_layer_add_effect(effect_layer,effect_rotate_90_degrees,(void*)true);
 	}
 }
 
 void init_day() {
 	s_date_layer = layer_create(g_bounds);
 	
-	s_day_label = text_layer_create(PBL_IF_ROUND_ELSE(GRect(104, 75, 32, 30), GRect(81, 68, 32, 30)));
-  s_num_label = text_layer_create(PBL_IF_ROUND_ELSE(GRect(136, 75, 22, 30), GRect(113, 68, 22, 30)));
+	s_day_label = text_layer_create(PBL_IF_ROUND_ELSE(GRect(105, 80, 32, 30), GRect(82, 73, 32, 30)));
+  s_num_label = text_layer_create(PBL_IF_ROUND_ELSE(GRect(136, 75, 25, 30), GRect(113, 68, 25, 30)));
 	
 	s_day_buffer[0] = '\0';
 	s_num_buffer[0] = '\0';
