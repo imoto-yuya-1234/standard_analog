@@ -3,13 +3,13 @@
 #include <pebble.h>
 #include "config.h"
 
-static Layer *s_window_layer;
-static GRect s_bounds;
-static GPoint s_center;
+Layer *g_window_layer;
+GRect g_bounds;
+GPoint g_center; 
 
 static Layer *s_date_layer;
 static TextLayer *s_day_label, *s_num_label;
-static char s_num_buffer[4], s_day_buffer[6];
+static char s_day_buffer[6], s_num_buffer[4];
 
 static void small2large(char *day_buffer) {
 	if(strcmp(day_buffer, "Sun") == 0) {
@@ -88,7 +88,6 @@ static void date_update_proc(Layer *layer, GContext *ctx) {
 	struct tm *t = localtime(&now);
 	
 	strftime(s_day_buffer, sizeof(s_day_buffer), "%a", t);
-		
 	char buffer[3];
 	persist_read_string(KEY_LANG, buffer, sizeof(buffer));
 	if(strcmp(buffer, "en") == 0) {
@@ -100,7 +99,6 @@ static void date_update_proc(Layer *layer, GContext *ctx) {
 	else if(strcmp(buffer, "de") == 0) {
 		en2de(s_day_buffer);
 	}
-	
 	text_layer_set_text(s_day_label, s_day_buffer);
 	
 	strftime(s_num_buffer, sizeof(s_num_buffer), "%d", t);
@@ -114,14 +112,15 @@ static void date_update_proc(Layer *layer, GContext *ctx) {
 void display_day() {
 	if(persist_read_bool(KEY_SHOW_DAY)) {
 		layer_set_update_proc(s_date_layer, date_update_proc);
-		layer_add_child(s_window_layer, s_date_layer);
+		layer_add_child(g_window_layer, s_date_layer);
 
+		GFont day_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ETELKA_BOLD_17));
 		text_layer_set_text(s_day_label, s_day_buffer);
 		text_layer_set_background_color(s_day_label, GColorClear);
 		text_layer_set_text_color(s_day_label, GColorBlack);
-		text_layer_set_font(s_day_label, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+		text_layer_set_font(s_day_label, day_font);
 		layer_add_child(s_date_layer, text_layer_get_layer(s_day_label));
-
+		
 		text_layer_set_text(s_num_label, s_num_buffer);
 		text_layer_set_background_color(s_num_label, GColorClear);
 		text_layer_set_text_color(s_num_label, GColorBlack);
@@ -130,15 +129,11 @@ void display_day() {
 	}
 }
 
-void init_day(Layer *window_layer) {
-	s_window_layer = window_layer;
-  s_bounds = layer_get_bounds(window_layer);
-  s_center = grect_center_point(&s_bounds);
+void init_day() {
+	s_date_layer = layer_create(g_bounds);
 	
-	s_date_layer = layer_create(s_bounds);
-	
-	s_day_label = text_layer_create(PBL_IF_ROUND_ELSE(GRect(104, 75, 32, 30), GRect(81, 68, 32, 30)));
-  s_num_label = text_layer_create(PBL_IF_ROUND_ELSE(GRect(136, 75, 20, 30), GRect(113, 68, 20, 30)));
+	s_day_label = text_layer_create(PBL_IF_ROUND_ELSE(GRect(105, 81, 45, 30), GRect(82, 74, 45, 30)));
+  s_num_label = text_layer_create(PBL_IF_ROUND_ELSE(GRect(136, 75, 25, 30), GRect(113, 68, 25, 30)));
 	
 	s_day_buffer[0] = '\0';
 	s_num_buffer[0] = '\0';

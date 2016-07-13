@@ -10,8 +10,12 @@
 #define KEY_SHOW_SECOND   5
 #define KEY_SHOW_BATTERY  6
 #define KEY_LANG					7
+#define KEY_ROTATE				8
 
-static void reload_window();
+extern uint32_t g_connection_icon;
+extern GColor g_bg_color, g_ticks_color, g_minute_color, g_second_color;
+
+void reload_window();
 
 static void in_recv_handler(DictionaryIterator *iter, void *context) {
 	Tuple *invert_t = dict_find(iter, KEY_INVERT);
@@ -66,11 +70,22 @@ static void in_recv_handler(DictionaryIterator *iter, void *context) {
 	
 	Tuple *lang_t = dict_find(iter, KEY_LANG);
 	persist_write_string(KEY_LANG, lang_t->value->cstring);
-		
+	
+	#if defined(PBL_PLATFORM_APLITE)
+	#else
+	Tuple *rotate_t = dict_find(iter, KEY_ROTATE);
+	if(rotate_t && rotate_t->value->int8 > 0) {
+		persist_write_bool(KEY_ROTATE, true);
+	} 
+	else {
+		persist_write_bool(KEY_ROTATE, false);
+	}
+	#endif
+	
 	reload_window();
 }
 
-void key_initialize() {
+void initialize_value() {
 	if(!persist_read_bool(KEY_INIT)) {
 		persist_write_bool(KEY_INIT, true);
 		persist_write_bool(KEY_INVERT, true);
@@ -80,6 +95,25 @@ void key_initialize() {
 		persist_write_bool(KEY_SHOW_SECOND, true);
 		persist_write_bool(KEY_SHOW_BATTERY, false);
 		persist_write_string(KEY_LANG, "en");
+		#if defined(PBL_PLATFORM_APLITE)
+		#else
+		persist_write_bool(KEY_ROTATE, true);
+		#endif
+	}
+	
+	if(persist_read_bool(KEY_INVERT)) {
+		g_connection_icon = RESOURCE_ID_NOT_CONNECTION_STATE_BLACK;
+		g_bg_color = GColorBlack;
+		g_ticks_color = GColorWhite;
+		g_minute_color = GColorWhite;
+		g_second_color = GColorWhite;
+	}
+	else {
+		g_connection_icon = RESOURCE_ID_NOT_CONNECTION_STATE_WHITE;
+		g_bg_color = GColorWhite;
+		g_ticks_color = GColorBlack;
+		g_minute_color = GColorBlack;
+		g_second_color = GColorBlack;
 	}
 }
 

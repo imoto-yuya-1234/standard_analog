@@ -1,0 +1,77 @@
+{
+    "author": "Yuya Imoto",
+    "dependencies": {},
+    "keywords": [],
+    "name": "standard-analog",
+    "pebble": {
+        "capabilities": [
+            "configurable"
+        ],
+        "displayName": "Standard Analog",
+        "enableMultiJS": true,
+        "messageKeys": {
+            "KEY_CONNECTION": 2,
+            "KEY_INIT": 0,
+            "KEY_INVERT": 1,
+            "KEY_LANG": 7,
+            "KEY_ROTATE": 8,
+            "KEY_SHOW_BATTERY": 6,
+            "KEY_SHOW_DAY": 4,
+            "KEY_SHOW_SECOND": 5,
+            "KEY_SHOW_TICKS": 3
+        },
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "fonts/font_etelka_bold_17",
+                    "name": "FONT_ETELKA_BOLD_17",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "images/not_connection_state_white",
+                    "name": "NOT_CONNECTION_STATE_WHITE",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/not_connection_state_black",
+                    "name": "NOT_CONNECTION_STATE_BLACK",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_main",
+                    "menuIcon": true,
+                    "name": "IMAGE_MAIN",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk"
+                    ],
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk"
+        ],
+        "uuid": "2aa7956b-b3b5-4905-9e1c-9cef3a1f878c",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "5.0.0"
+}

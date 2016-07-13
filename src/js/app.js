@@ -7,7 +7,15 @@ Pebble.addEventListener("ready",
 Pebble.addEventListener("showConfiguration",
   function(e) {
     //Load the remote config page
-		var url = "https://imoto-yuya-1234.github.io/standard_analog/index.html";
+		var info = Pebble.getActiveWatchInfo();
+		console.log("Pebble model: " + info.platform);
+		var url;
+		if (info.platform == "aplite") {
+			url = "https://imoto-yuya-1234.github.io/standard_analog/index.html";
+		}
+		else {
+			url = "https://imoto-yuya-1234.github.io/standard_analog/index_rot.html";
+		}
     Pebble.openURL(url);
 		console.log("Showing configuration page: " + url);
   }
@@ -41,6 +49,12 @@ Pebble.addEventListener("webviewclosed",
 		
 		var lang = configData['lang'];
 		dict['KEY_LANG'] = configData['lang'];
+		
+		var info = Pebble.getActiveWatchInfo();
+		if (info.platform != "aplite") {
+			var rotate = configData['rotate'];
+			dict['KEY_ROTATE'] = configData['rotate'] ? 1 : 0;
+		}
   	
 		// Send to watchapp
 		Pebble.sendAppMessage(dict, function() {

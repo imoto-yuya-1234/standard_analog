@@ -1,42 +1,47 @@
 #include <pebble.h>
 #include "config.h"
-#include "color.h"
 #include "display_day.h"
 #include "display_time.h"
 #include "ornament.h"
 #include "monitor_status.h"
 
+extern Layer *g_window_layer;
+extern GRect g_bounds;
+extern GPoint g_center;
+
+GColor g_bg_color;
+
 static Window *s_window;
-GColor bg_color;
 
 static void window_load(Window *window) {
-  Layer *window_layer = window_get_root_layer(window);
+  g_window_layer = window_get_root_layer(window);
+  g_bounds = layer_get_bounds(g_window_layer);
+  g_center = grect_center_point(&g_bounds);
 	
-	key_initialize();
-	set_color();
+	initialize_value();
 	
-	window_set_background_color(s_window, bg_color);
+	window_set_background_color(s_window, g_bg_color);
 	
-	init_status(window_layer);
-	monitor_battery();
-	
-	init_ornament(window_layer);
-	display_ticks();
-	
-	monitor_connection();
-
-	init_day(window_layer);
+	init_day();
 	display_day();
 	
-	init_time(window_layer);
+	init_status();
+	display_connection();
+	valid_rot();
+	
+	init_ornament();
+	display_edge();
+	display_ticks();
+	
+	init_time();
 	display_time();
 }
 
 static void window_unload(Window *window) {
 	deinit_time();
 	deinit_day();
-	deinit_ornament();
 	deinit_status();
+	deinit_ornament();
 }
 
 static void load_window() {
@@ -48,7 +53,7 @@ static void load_window() {
   window_stack_push(s_window, true);
 }
 
-static void reload_window() {
+void reload_window() {
 	window_stack_remove(s_window, true);
 	load_window();
 	
@@ -60,13 +65,13 @@ static void init() {
 	load_window();
 	
 	config_service();
-	time_service_on();
 	status_service_on();
+	time_service_on();
 }
 
 static void deinit() {
-	time_service_off();
 	status_service_off();
+	time_service_off();
   window_destroy(s_window);
 }
 
