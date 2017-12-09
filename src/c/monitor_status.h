@@ -1,7 +1,7 @@
 #pragma once
 
 #include <pebble.h>
-#include <effect_layer/effect_layer.h>
+#include "effect_layer/effect_layer.h"
 #include "config.h"
 
 Layer *g_window_layer;

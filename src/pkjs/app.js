@@ -11,10 +11,10 @@ Pebble.addEventListener("showConfiguration",
 		console.log("Pebble model: " + info.platform);
 		var url;
 		if (info.platform == "aplite") {
-			url = "https://imoto-yuya-1234.github.io/standard_analog/index.html";
+			url = "https://imoto-yuya.github.io/standard_analog/index.html";
 		}
 		else {
-			url = "https://imoto-yuya-1234.github.io/standard_analog/index_rot.html";
+			url = "https://imoto-yuya.github.io/standard_analog/index_rot.html";
 		}
     Pebble.openURL(url);
 		console.log("Showing configuration page: " + url);
